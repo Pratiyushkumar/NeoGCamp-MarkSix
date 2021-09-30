@@ -1,26 +1,26 @@
 const textInput = document.querySelector("#textInput");
 const btnClicked = document.querySelector("#btnClicked");
-const btnClickedSecond = document.querySelector("#btnClickedSecond");
-const textOutput = document.querySelector("#textOutput");
 
-btnClickedSecond.addEventListener("click", () => {
-  console.log("btn clicked");
-  console.log(textInput.value);
-  textOutput.innerHTML = textInput.value;
-});
+const textOutput = document.querySelector("#textOutput");
 
 console.log("working");
 
+let responseUrl = "https://api.funtranslations.com/translate/minion.json";
+
 btnClicked.addEventListener("click", () => {
-  let responseUrl = "https://api.funtranslations.com/translate/yoda.json";
+  buttonClickHndler();
+});
+
+function buttonClickHndler(event) {
   let input = textInput.value;
-  let serverUrl = responseUrl + "?text=" + input;
+  let serverUrl = `${responseUrl}?text=${encodeURI(input)}`;
+
+  console.log(serverUrl);
   console.log("btn clicked");
-  console.log(textInput.value);
+
   fetch(serverUrl)
     .then((response) => response.json())
     .then((json) => {
-      let output = json.contents.translated;
-      textOutput.innerText = output;
+      textOutput.innerText = json.contents.translated;
     });
-});
+}
